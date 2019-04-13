@@ -1,0 +1,27 @@
+extends layout
+
+block content
+	h1= title
+	p Sign in below
+  
+	form(method="POST" action='/')
+		div.from-group
+			label(for='uname')
+			b Username:
+			input#uname.form-control(type='text' placeholder='Enter Username' name='uname' required='')
+			div.form-group
+			label(for='upass')
+			b Password:
+			input#upass.form-control(type='password' placeholder='Enter Password' name='upass' required='')
+		br
+		button.btn.btn-primary(type='submit') Log In
+
+	label
+	// <span class="upass">Forgot <a href="#">password?</a></span>
+	p
+		| Forgot 
+		a(href='#') password?
+	p
+		| Don't have an account? 
+		a(href='#') Sign up.
+	
