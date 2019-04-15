@@ -24,7 +24,7 @@ router.get('/login', function(req, res){
 });
 
 //post in response to login form
-router.post('/', function(req, res, cb) {
+router.post('/', function(req, res) {
 	var username = req.body.uname;
 	var password = req.body.upass;
 	
@@ -38,16 +38,15 @@ router.post('/', function(req, res, cb) {
 			if(typeof row == "undefined"){
 				exists = false;
 				console.log("Invalid username or password.");
-				cb(exists);
 			} else {
 			exists = true;
 				console.log("Success.");
-				cb(exists);
 				res.render('profileLanding', {title: username});
 			}
+			res.render('index', {title: 'Invalid username or password.', extra: 'Please try again.'});
 		})
 	
-	res.render('index', {title: 'Invalid username or password.', extra: 'Please try again.'});
+	
 });
 
 router.get('/messages', function(req, res) {
