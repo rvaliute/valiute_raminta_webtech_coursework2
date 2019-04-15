@@ -3,7 +3,7 @@
 var path = require('path');
 //var dbpath = path.resolve(__dirname, './LoginDetails.db')
 var sqlite3 = require('sqlite3').verbose(); //npm install sqlite3 into nodejs
-var db = new sqlite3.Database('./LoginDetails.db', (err) => {
+var db = new sqlite3.Database('./LoginDetails', (err) => {
 	if(err) {
 		return console.error(err.message);
 	}
@@ -24,17 +24,15 @@ router.get('/login', function(req, res){
 });
 
 //post in response to login form
-router.post('/', function(req, res) {
+router.post('/', function(req, res, cb) {
 	var username = req.body.uname;
 	var password = req.body.upass;
 	
-	function authenticate(username, password, cb){
 	var exists = false;
 	
 	//check against db
-	db.get(`select * from users where username = ${username} AND password=${password}`, function(err,row)
+	db.get(`select distinct * from users where username = "${username}" AND password="${password}"`, function(err,row)
 		{
-			
 			if(err)console.log(err);
 	
 			if(typeof row == "undefined"){
@@ -45,12 +43,11 @@ router.post('/', function(req, res) {
 			exists = true;
 				console.log("Success.");
 				cb(exists);
-				res.render('/profileLanding', {title: username});
+				res.render('profileLanding', {title: username});
 			}
 		})
-	}
 	
-	res.render('./index', {title: 'Invalid username or password.', extra: 'Please try again.'});
+	res.render('index', {title: 'Invalid username or password.', extra: 'Please try again.'});
 });
 
 router.get('/messages', function(req, res) {
