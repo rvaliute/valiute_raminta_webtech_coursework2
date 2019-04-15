@@ -21,12 +21,12 @@ body {
   size: 14px;
   
   background: #373b44;
-  background: linear-gradient(to bottom, #373B44, #4286f4);
+  background: linear-gradient(to top, #c31432, #240b36);
   
 }
 
 a {
-  color: #00B7FF;
+  color: /*#00B7FF;*/#d4dcf0;
 }
 
 a:hover {
