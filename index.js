@@ -40,21 +40,17 @@ router.post('/', function(req, res) {
 			if(typeof row == "undefined"){
 				exists = false;
 				console.log("Invalid username or password.");
-			cb(exists);
-		} else {
+				cb(exists);
+			} else {
 			exists = true;
-			console.log("Success.");
-			cb(exists);
-			res.redirect('/success'); //render name of user logged in
+				console.log("Success.");
+				cb(exists);
+				res.render('/profileLanding', {title: username});
 			}
 		})
 	}
 	
-	res.render('./index', {title: 'Invalid username or password.'});
-});
-
-router.get('/success', function(req, res) {
-	res.render('/profileLanding', {title: username});
+	res.render('./index', {title: 'Invalid username or password.', extra: 'Please try again.'});
 });
 
 router.get('/messages', function(req, res) {
