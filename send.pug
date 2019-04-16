@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	h1=title	
+	img(src=extra2, 'width=10%, height=12%')
+  
+	form(method="POST" action='/sendmessage')
+		div.from-group
+			label(for='recipient')
+			b Send to:
+			input#recipient.form-control(type='text' placeholder='Enter recipient' name='recipient' required='')
+			div.form-group
+			label(for='message')
+			br
+			b Compose message:
+			br
+			textarea#message.form-control(rows='4' cols='50' type='text' placeholder='textarea' name='message' require='')
+		br
+		button.btn.btn-primary(type='submit') Send
+	
