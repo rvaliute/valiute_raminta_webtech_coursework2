@@ -54,9 +54,39 @@ router.post('/', function(req, res) {
 });
 
 router.get('/messages', function(req, res) {
-	res.render('messages', {title: "Inbox", extra2: './images/pug.gif'});
-
+	//res.render('messages', {title: "Inbox", extra2: './images/pug.gif'});
+	
+	var username = req.cookies.UserDetails;
+	var showmsg = [];
+	
+	//db.get(`select * from messages where receiver = "${username}"`, function(err,row)
+	db.serialize(function(){
+	db.all(`select * from messages where receiver = "${username}"`, function(err,result,row)
+		{
+			if(err)
+			{
+				throw err;
+				console.log("error");
+			}
+			if(result)
+			{
+				result.forEach(function(value)
+				{
+					var otherstring="Message: "+value.message;
+					showmsg.push(otherstring);
+				});
+				
+				res.render('messages', {extra: showmsg, extra2: './images/pug.gif'});
+			} 
+			else
+				
+			{
+				res.render('messages', {title: 'Problem retrieving messages.', extra: 'Please try again.', extra2: './images/pug.gif'});
+			}
+		})
+	});
 });
+	
 
 router.get('/logout', function(req, res) {
 	res.redirect('/');
@@ -73,16 +103,17 @@ router.post('/sendmessage', function(req, res) {
 	var message = req.body.message;
 	var username = req.cookies.UserDetails;
 	
-	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${message}'`), function (err)
+	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${message}')`, function (err)
 			{
 			if(err) {
 				console.log(err);
 				res.render('send', {title: "Something's gone wrong, please try again.", extra2: './images/shiba.gif'})
-			} else {
+			} else 
+			{
 				console.log("Success.");
-				res.render('profileLanding', {title: "Message sent!", extra2: './images/corgi.gif'});
+				res.render('messages', {title: "Message sent!", extra2: './images/corgi.gif'});
 				}
-			}
+			})
 });
 		
 
