@@ -73,15 +73,18 @@ router.post('/sendmessage', function(req, res) {
 	var message = req.body.message;
 	var username = req.cookies.UserDetails;
 	
-	//insert data into messages table
-	db.run(`INSERT INTO messages (sender,receiver,message) VALUES '${username}', '${recipient}', '${message}'`, function(err,row)
+	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${message}'`), function (err)
 			{
-				if(err)console.log(err);
+			if(err) {
+				console.log(err);
 				res.render('send', {title: "Something's gone wrong, please try again.", extra2: './images/shiba.gif'})
 			} else {
+				console.log("Success.");
 				res.render('profileLanding', {title: "Message sent!", extra2: './images/corgi.gif'});
-			})
+				}
+			}
 });
+		
 
 
 module.exports = router;
