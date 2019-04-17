@@ -128,7 +128,7 @@ router.post('/sendmessage', function(req, res) {
 	var username = req.cookies.UserDetails;
 	
 	//encode
-		var message = req.body.message.toLowerCase().split(" ").sort().join(" ");
+		var message = req.body.message.toLowerCase().split(" ").join(" ");
 		var shift = 13;
 		var output = "";
 		
@@ -141,8 +141,11 @@ router.post('/sendmessage', function(req, res) {
 				
 			output += character;
 		}
+		
+		res.render('messages', {title: output, extra2: './images/corgi.gif'});
+		console.log(output);
 	
-	
+	/*
 //insert encoded into db
 	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${output}')`, function (err)
 			{
@@ -154,7 +157,7 @@ router.post('/sendmessage', function(req, res) {
 				console.log("Success.");
 				res.render('messages', {title: "Message sent!", extra2: './images/corgi.gif'});
 				}
-			})
+			}) */
 });
 		
 
