@@ -20,7 +20,9 @@ router.get('/', function(req, res){
 	res.render('index', {title: 'Welcome'});
 })
 
-//post in response to login form
+
+
+//LOG THE USER IN
 router.post('/', function(req, res) {
 	var username = req.body.uname;
 	var password = req.body.upass;
@@ -53,6 +55,9 @@ router.post('/', function(req, res) {
 		})
 });
 
+
+
+//VIEW MESSAGES
 router.get('/messages', function(req, res) {
 	//res.render('messages', {title: "Inbox", extra2: './images/pug.gif'});
 	
@@ -71,12 +76,31 @@ router.get('/messages', function(req, res) {
 			if(result)
 			{
 				result.forEach(function(value)
-				{
-					var otherstring="Message: "+value.message;
-					showmsg.push(otherstring);
+				{	
+					var sender=value.sender;
+					//var yoursentmsg=value.receiver;
+					//decode
+					var message = value.message.toLowerCase().split(" ").sort().join(" ");
+					var shift = 13;
+					var output = "";
+		
+					for (var i = 0; i < message.length; i ++) {
+						var character = message[i];
+						var code = message.charCodeAt(i);
+			
+						character = String.fromCharCode(((+code - +97 + +shift) % 26) + +97);
+						/*window.alert((+code - +97 + +shift) % 26)*/
+				
+						output += character;
+					}
+					
+					var receivedmsg=sender+(": ")+output;
+					//var sentmsg=yoursentmsg+value.message;
+					
+					showmsg.push(receivedmsg);
 				});
 				
-				res.render('messages', {extra: showmsg, extra2: './images/pug.gif'});
+				res.render('messages', {title: "Inbox", extra: showmsg, extra2: './images/pug.gif'});
 			} 
 			else
 				
@@ -97,13 +121,30 @@ router.get('/send', function(req, res) {
 });
 	
 
-//post in response to send message
+//SEND A MESSAGE
 router.post('/sendmessage', function(req, res) {
 	var recipient = req.body.recipient;
-	var message = req.body.message;
+	//var message = req.body.message;
 	var username = req.cookies.UserDetails;
 	
-	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${message}')`, function (err)
+	//encode
+		var message = req.body.message.toLowerCase().split(" ").sort().join(" ");
+		var shift = 13;
+		var output = "";
+		
+		for (var i = 0; i < message.length; i ++) {
+			var character = message[i];
+			var code = message.charCodeAt(i);
+			
+                character = String.fromCharCode(((+code - +97 + +shift) % 26) + +97);
+				/*window.alert((+code - +97 + +shift) % 26)*/
+				
+			output += character;
+		}
+	
+	
+//insert encoded into db
+	db.run(`INSERT INTO messages (sender,receiver,message) VALUES ('${username}', '${recipient}', '${output}')`, function (err)
 			{
 			if(err) {
 				console.log(err);
