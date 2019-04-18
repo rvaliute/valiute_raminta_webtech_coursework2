@@ -17,3 +17,4 @@ All the required packages are listed at the top of index.js.
 
 Start the server:
 set DEBUG=myapp:* & c:\users\yourname\helloapp\nodejs\npm start --scripts-prepend-node-path
+127.0.0.1:3000
