@@ -1,0 +1,26 @@
+/* Palette 
+background-image: linear-gradient(#8A2387, #E94057, #F27121);
+background-image: linear-gradient(#355C7D, #6C5B7B, #C06C84);
+current - background-image: linear-gradient(#03001e, #7303c0, #ec38bc, #fdeff9);
+#23074d #cc5333
+*/
+
+
+
+/* Palette */
+/* Headings: #66545e purple || #333333 grey*/
+/* Content: #a39193 lilac-grey */
+/* Links: #f6e0b5 strange-yellow */
+/* Subcontent (small text): #eea990 orange */
+/* Misc (clicked links?): #aa6f73 dark-red */
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #03001e; /* For browsers that do not support gradients */
+  background-image: linear-gradient(#03001e, #7303c0, #ec38bc, #fdeff9);
+}
+
+a {
+  color: #00B7FF;
+}
